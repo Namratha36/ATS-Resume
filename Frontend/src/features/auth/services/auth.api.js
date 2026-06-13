@@ -7,7 +7,7 @@ const api = axios.create({
 
 export async function registerUser({username, email, password}) {
   try {
-    const response = await api.post("/api/auth/register", {
+    const response = await api.post("/register", {
       username,
       email,
       password
@@ -21,7 +21,7 @@ export async function registerUser({username, email, password}) {
 
 export async function login({email, password}) {
   try {
-    const response = await api.post("/api/auth/login", {
+    const response = await api.post("/login", {
       email,
       password
     });
@@ -33,7 +33,7 @@ export async function login({email, password}) {
 
 export async function logOut() {
   try {
-    const response = await api.post("/api/auth/logout", {});
+    const response = await api.post("/logout", {});
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || "Logout failed");
@@ -42,7 +42,7 @@ export async function logOut() {
 
 export async function getMe() {
   try {
-    const response = await api.get("/api/auth/get-me", {
+    const response = await api.get("/get-me", {
       withCredentials: true
     });
     return response.data;
