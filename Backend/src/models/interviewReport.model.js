@@ -49,6 +49,11 @@ const interviewReportSchema = new moonoose.Schema({
     behavioralQnA: [behavioralQnASchema],
     skillGaps: [skillGapSchema],
     preparationPlan: [preparationPlanSchema],
+    user:{
+        type: moonoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: [true, "User is required"]
+    }
 },{timestamps: true});
 
 const interviewReportModel = moonoose.model("InterviewReport", interviewReportSchema);

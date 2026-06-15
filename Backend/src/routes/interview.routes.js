@@ -1,13 +1,17 @@
 const { Router } = require('express');
 const interviewController = require('../controllers/interview.controller');
-
-const interviewRoutes = Router();
+const upload = require('../middlewares/file.middleware').upload;
+const express = require('express');
+const interviewRouter = express.Router();
+const authMiddleware = require('../middlewares/auth.middleware');
 
 /**
- * @route POST /api/interview/analyze
- * @desc Get AI analysis for interview questions
- * @access Public
+ * @route POST /api/interview/
+ * @desc generate new interview report on the basis of user self description, resume pdf, and job description
+ * @access Private
  */
-interviewRoutes.post('/analyze', interviewController.getInterviewAnalysis);
 
-module.exports = interviewRoutes;
+interviewRouter.post('/', authMiddleware.authUser,upload.single('resume'),interviewController.generateInterviewReportController);
+
+
+module.exports = interviewRouter;

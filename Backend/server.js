@@ -1,9 +1,8 @@
 require('dotenv').config();
 const connectDB = require('./src/config/database');
 const app = require('./src/app');
-const {invokeGeminiAi} = require('./src/services/ai.service');
 
-invokeGeminiAi();
+
 
 connectDB().then(() => {
   app.listen(3000, () => {
