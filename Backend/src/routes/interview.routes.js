@@ -11,7 +11,7 @@ const authMiddleware = require('../middlewares/auth.middleware');
  * @access Private
  */
 
-interviewRouter.post('/', authMiddleware.authUser,upload.single('resume'),interviewController.generateInterviewReportController);
+interviewRouter.post('/', authMiddleware.authUser,upload.single('resume'),interviewController.generateInterViewReportController);
 
 
 module.exports = interviewRouter;

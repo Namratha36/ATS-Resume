@@ -22,7 +22,7 @@ async function generateInterViewReportController(req, res) {
         ...interviewByAi
     });
 
-    response.status(201).json({
+    res.status(201).json({
         message: "Interview report generated successfully",
         interviewReport
     });
