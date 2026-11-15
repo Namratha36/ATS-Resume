@@ -1,39 +1,42 @@
-import React,{createContext,useState, useEffect} from "react";
-import {getMe} from "./services/auth.api";
+import React, { createContext, useState, useEffect } from "react";
+import { getMe } from "./services/auth.api";
 
 export const AuthContext = createContext({
-    user: null,
-    setUser: () => {},
-    loading: false,
-    setLoading: () => {}
+  user: null,
+  setUser: () => {},
+  loading: false,
+  setLoading: () => {},
 });
 
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-export const AuthProvider = ({children}) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const getAndSetUser = async () => {
+      try {
+        const data = await getMe();
+        // getMe returns { message, id, username, email }
+        if (data && data.id) {
+          setUser({
+            id: data.id,
+            username: data.username,
+            email: data.email,
+          });
+        }
+      } catch (error) {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    useEffect(() => {
-        const getAndSetUser = async () => {
-            try {
-                const data = await getMe();
-                setUser(data.user);
-            } catch (error) {
-                console.error("Failed to fetch user:", error);
-                setUser(null);
-            } finally {
-                setLoading(false);
-            }
-        };
+    getAndSetUser();
+  }, []);
 
-        getAndSetUser();
-    }, []);
-
-
-
-    return (
-        <AuthContext.Provider value={{ user, setUser, loading, setLoading }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={{ user, setUser, loading, setLoading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

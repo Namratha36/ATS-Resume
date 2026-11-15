@@ -1,47 +1,100 @@
-main{
-    min-height: 100vh;
-    width: 100%;
+main {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form-container {
+    min-width: 380px;
+    max-width: 420px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    gap: 0.75rem;
 
-
-
-    .input-group{
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        
-        .forum-container{
-            min-width: 350px;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        form{
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        input{
-            border:none;
-            outline: none;
-            padding-inline: 1rem;
-            padding-block: 0.75rem;
-            border-radius: 0.75rem;
-
-            &:focus{
-                outline: none;
-                border-color: #555;
-            }
-        }
+    h1 {
+      font-size: 1.75rem;
     }
 
-    a{
+    .form-subtitle {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-error {
+      background: #3d1111;
+      border: 1px solid #e1034d;
+      color: #ff6b6b;
+      padding: 0.6rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .form-link {
+      font-size: 0.9rem;
+      color: #aaa;
+
+      a {
         color: #e1034d;
         text-decoration: none;
         font-weight: 500;
+      }
     }
+
+    .demo-credentials {
+      background: #1a1a2e;
+      border: 1px solid #3a3a6a;
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: #b0b0e0;
+
+      p {
+        margin-bottom: 0.15rem;
+      }
+    }
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    label {
+      font-size: 0.85rem;
+      color: #ccc;
+    }
+
+    input {
+      border: 1px solid #333;
+      background: #1e1e1e;
+      color: #eee;
+      outline: none;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.95rem;
+
+      &:focus {
+        border-color: #e1034d;
+      }
+
+      &::placeholder {
+        color: #666;
+      }
+    }
+  }
+
+  a {
+    color: #e1034d;
+    text-decoration: none;
+    font-weight: 500;
+  }
 }

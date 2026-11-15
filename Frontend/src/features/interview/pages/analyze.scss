@@ -1,0 +1,78 @@
+.analyze-page {
+  padding: 2rem;
+  max-width: 750px;
+  margin: 0 auto;
+
+  .analyze-container {
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #aaa;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .error-banner {
+    background: #3d1111;
+    border: 1px solid #e1034d;
+    color: #ff8a8a;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #ddd;
+    }
+
+    input[type="file"] {
+      color: #aaa;
+    }
+
+    .file-name {
+      display: block;
+      margin-top: 0.5rem;
+      color: #4caf50;
+      font-size: 0.85rem;
+    }
+
+    textarea {
+      width: 100%;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      color: #eee;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      resize: vertical;
+
+      &:focus {
+        outline: none;
+        border-color: #e1034d;
+      }
+    }
+  }
+
+  .submit-btn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.85rem;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}

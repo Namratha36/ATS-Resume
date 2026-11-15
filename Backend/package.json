@@ -1,11 +1,13 @@
 {
   "name": "ats_gen",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "ResumeAI - AI-Powered Interview Preparation Tool",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx nodemon server.js"
+    "test": "echo \"No test framework configured yet\" && exit 0",
+    "dev": "npx nodemon server.js",
+    "start": "node server.js",
+    "seed": "node seed-demo.js"
   },
   "keywords": [],
   "author": "",

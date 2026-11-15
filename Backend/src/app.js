@@ -1,33 +1,28 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-    origin: 'http://localhost:5173', // Update this to your frontend URL
-    credentials: true, // Allow cookies to be sent with requests
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
+// Routes
+const authRouter = require("./routes/auth.routes");
+const interviewRouter = require("./routes/interview.routes");
 
-// require all the routes here
-const authRouter = require('./routes/auth.routes');
-const interviewRouter = require('./routes/interview.routes');
+app.use("/api/auth", authRouter);
+app.use("/api/interview", interviewRouter);
 
-
-// using all the routes here
-app.use('/api/auth', authRouter);
-app.use('/api/interview', interviewRouter);
-
-
-/**
- * @route POST /api/auth/register
- * @desc Register a new user
- * @access Public
- */
-
-authRouter
+// Health check
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
 
 module.exports = app;
