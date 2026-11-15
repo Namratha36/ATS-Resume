@@ -1,87 +1,186 @@
 import React, { useState } from "react";
-import "../auth.form.scss";
-import { useNavigate, Link } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
+import "../auth.form.scss";
 
 const Login = () => {
-  const { loading, handleLogin, user } = useAuth();
+  const { user, handleLogin, handleGuestLogin } = useAuth();
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // If already logged in, redirect
+  // If already authenticated, redirect to home
   if (user) {
-    navigate("/");
-    return null;
+    return <Navigate to="/" replace />;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsSubmitting(true);
     try {
       await handleLogin(email, password);
       navigate("/");
     } catch (err) {
-      setError(err.message || "Login failed. Check your credentials.");
+      setError(err.message || "Invalid credentials. Please verify and try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  if (loading) {
-    return (
-      <main>
-        <h2 style={{ textAlign: "center", padding: "4rem" }}>Loading...</h2>
-      </main>
-    );
-  }
+  const handleAutofillDemo = () => {
+    setEmail("demo@resumeai.com");
+    setPassword("Demo@12345");
+    setError("");
+  };
+
+  const handleOneClickDemo = async () => {
+    setError("");
+    setIsSubmitting(true);
+    try {
+      await handleLogin("demo@resumeai.com", "Demo@12345");
+      navigate("/");
+    } catch (err) {
+      setError("Demo login failed. Make sure the backend server and database are running.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleGuestSession = async () => {
+    setError("");
+    setIsGuestLoading(true);
+    try {
+      await handleGuestLogin();
+      navigate("/");
+    } catch (err) {
+      setError(err.message || "Could not initialize guest session. Please try again.");
+    } finally {
+      setIsGuestLoading(false);
+    }
+  };
 
   return (
-    <main>
-      <div className="form-container">
-        <h1>Login</h1>
-        <p className="form-subtitle">Welcome back to ResumeAI</p>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-header">
+          <div className="brand-badge">📄 ResumeAI Platform</div>
+          <h1>Welcome Back</h1>
+          <p>Sign in to access your resumes & interview prep reports</p>
+        </div>
 
-        {error && <div className="form-error">{error}</div>}
+        <div className="auth-tabs">
+          <Link to="/login" className="tab-btn active">
+            Sign In
+          </Link>
+          <Link to="/register" className="tab-btn">
+            Create Account
+          </Link>
+        </div>
+
+        {error && (
+          <div className="auth-error" role="alert">
+            <span>⚠️</span>
+            <span>{error}</span>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
-            <input
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-              id="email"
-              placeholder="you@example.com"
-              required
-            />
+          <div className="form-group">
+            <label htmlFor="email">Email Address</label>
+            <div className="input-wrapper">
+              <input
+                id="email"
+                type="email"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+              />
+            </div>
           </div>
-          <div className="input-group">
+
+          <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              id="password"
-              placeholder="Your password"
-              required
-            />
+            <div className="input-wrapper">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+                title={showPassword ? "Hide password" : "Show password"}
+                tabIndex={-1}
+              >
+                {showPassword ? "👁️" : "👁️‍🗨️"}
+              </button>
+            </div>
           </div>
-          <button className="button primary-button" type="submit">
-            Login
+
+          <button
+            type="submit"
+            className="auth-submit-btn"
+            disabled={isSubmitting || isGuestLoading}
+          >
+            {isSubmitting ? "Signing in..." : "Sign In to ResumeAI"}
           </button>
         </form>
 
-        <p className="form-link">
-          Don't have an account? <Link to="/register">Register here</Link>
-        </p>
+        <div className="divider">
+          <span>or instant access</span>
+        </div>
 
-        <div className="demo-credentials">
-          <p>
-            <strong>Demo Account:</strong>
-          </p>
-          <p>Email: demo@resumeai.com</p>
-          <p>Password: Demo@12345</p>
+        <div className="alternative-actions">
+          <button
+            type="button"
+            className="btn-secondary btn-demo"
+            onClick={handleOneClickDemo}
+            disabled={isSubmitting || isGuestLoading}
+          >
+            ✨ One-Click Demo Login (Pre-loaded data)
+          </button>
+
+          <button
+            type="button"
+            className="btn-secondary"
+            onClick={handleGuestSession}
+            disabled={isSubmitting || isGuestLoading}
+          >
+            {isGuestLoading ? "Creating Guest Session..." : "👤 Continue as Guest (Private & Isolated)"}
+          </button>
+        </div>
+
+        <div className="demo-callout">
+          <div className="callout-header">
+            <span>Demo Interview Credentials</span>
+            <button type="button" className="fill-chip" onClick={handleAutofillDemo}>
+              Autofill Form
+            </button>
+          </div>
+          <div className="credentials-info">
+            demo@resumeai.com &bull; Demo@12345
+          </div>
+        </div>
+
+        <div className="auth-footer">
+          Don't have an account yet?
+          <Link to="/register">Create an account</Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

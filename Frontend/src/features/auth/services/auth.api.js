@@ -27,6 +27,15 @@ export async function login({ email, password }) {
   }
 }
 
+export async function guestLogin() {
+  try {
+    const response = await api.post("/guest");
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Guest session initialization failed");
+  }
+}
+
 export async function logOut() {
   try {
     const response = await api.get("/logout");
