@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const API_BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL.replace(/\/$/, "")}/api/auth`
+  : "/api/auth";
+
 const api = axios.create({
-  baseURL: "http://localhost:3000/api/auth",
+  baseURL: API_BASE,
   withCredentials: true,
 });
 
@@ -32,7 +36,9 @@ export async function guestLogin() {
     const response = await api.post("/guest");
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Guest session initialization failed");
+    throw new Error(
+      error.response?.data?.message || "Guest session initialization failed"
+    );
   }
 }
 
