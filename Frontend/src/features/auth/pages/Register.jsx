@@ -17,7 +17,7 @@ const Register = () => {
   const [error, setError] = useState("");
 
   if (user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   const handleSubmit = async (e) => {
@@ -37,7 +37,7 @@ const Register = () => {
     setIsSubmitting(true);
     try {
       await handleRegister(username, email, password);
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Registration failed. Please try a different username/email.");
     } finally {
@@ -50,7 +50,7 @@ const Register = () => {
     setIsGuestLoading(true);
     try {
       await handleGuestLogin();
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Could not initialize guest session. Please try again.");
     } finally {

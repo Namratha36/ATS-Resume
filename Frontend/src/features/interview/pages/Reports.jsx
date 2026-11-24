@@ -106,9 +106,6 @@ const Reports = () => {
                       year: "numeric",
                     })}
                   </span>
-                  {report.isDemo && (
-                    <span className="demo-badge">Sample Demo</span>
-                  )}
                 </div>
                 <div className="report-right">→</div>
               </Link>

@@ -14,9 +14,9 @@ const Login = () => {
   const [isGuestLoading, setIsGuestLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // If already authenticated, redirect to home
+  // If already authenticated, redirect to dashboard
   if (user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   const handleSubmit = async (e) => {
@@ -25,7 +25,7 @@ const Login = () => {
     setIsSubmitting(true);
     try {
       await handleLogin(email, password);
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Invalid credentials. Please verify and try again.");
     } finally {
@@ -44,7 +44,7 @@ const Login = () => {
     setIsSubmitting(true);
     try {
       await handleLogin("demo@resumeai.com", "Demo@12345");
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       setError("Demo login failed. Make sure the backend server and database are running.");
     } finally {
@@ -57,7 +57,7 @@ const Login = () => {
     setIsGuestLoading(true);
     try {
       await handleGuestLogin();
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Could not initialize guest session. Please try again.");
     } finally {

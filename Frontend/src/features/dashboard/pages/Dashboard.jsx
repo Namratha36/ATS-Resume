@@ -104,9 +104,6 @@ const Dashboard = () => {
                   <span className="report-date">
                     {new Date(report.createdAt).toLocaleDateString()}
                   </span>
-                  {report.isDemo && (
-                    <span className="demo-badge">Sample Demo Report</span>
-                  )}
                 </div>
               </Link>
             ))}

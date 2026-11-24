@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router";
+import LandingPage from "./features/landing/pages/LandingPage";
 import Login from "./features/auth/pages/Login";
 import Register from "./features/auth/pages/Register";
 import AppLayout from "./features/layout/AppLayout";
@@ -10,6 +11,10 @@ import Profile from "./features/profile/pages/Profile";
 
 export const router = createBrowserRouter([
   {
+    path: "/",
+    element: <LandingPage />,
+  },
+  {
     path: "/login",
     element: <Login />,
   },
@@ -18,27 +23,26 @@ export const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/",
     element: <AppLayout />,
     children: [
       {
-        index: true,
+        path: "/dashboard",
         element: <Dashboard />,
       },
       {
-        path: "analyze",
+        path: "/analyze",
         element: <Analyze />,
       },
       {
-        path: "reports",
+        path: "/reports",
         element: <Reports />,
       },
       {
-        path: "reports/:id",
+        path: "/reports/:id",
         element: <ReportDetail />,
       },
       {
-        path: "profile",
+        path: "/profile",
         element: <Profile />,
       },
     ],
